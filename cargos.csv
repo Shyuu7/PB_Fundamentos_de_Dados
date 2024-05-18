@@ -1,0 +1,6 @@
+CargoID;Descricao;SalarioBase;Nivel;Beneficios
+1;Diretor;9000;Diretor;Odontológico, Transporte, Médico, Alimentação
+2;Gerente;8000;Gerente;Odontológico, Transporte, Alimentação
+3;Analista;5000;Analista;Odontológico, Transporte, Alimentação
+4;Técnico de Suporte;3000;Técnico;Transporte, Alimentação
+5;Estagiário;2000;Estagiário;Transporte, Alimentação

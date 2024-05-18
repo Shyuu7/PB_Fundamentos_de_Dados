@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "${workspaceFolder:TP3 - PB - Larissa Conti}/DataDB.db",
+            "name": "EmpresaDB"
+        }
+    ]
+}

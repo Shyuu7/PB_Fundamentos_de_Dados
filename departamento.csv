@@ -1,0 +1,6 @@
+DepartamentoID;NomeDepartamento;GerenteID;Andar;Funcoes
+1;TI;2;7;Setor responsável pela arquitetura digital da empresa
+2;Marketing;3;7;Setor responsável pela divulgação da empresa
+3;Vendas;3;5;Setor responsável pelas transações da empresa
+4;Suporte Técnico;2;4;Setor responsável pela manutenção e suporte à empresa
+5;Financeiro;3;5;Setor de gestão financeira da empresa
