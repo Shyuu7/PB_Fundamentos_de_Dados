@@ -21,6 +21,7 @@ def criar_tabela(nome_tabela, query):
             print("\n=====================================================================")
 
         # Fechar a conexão com o banco de dados
+        conn.commit()
         conn.close()
     except Exception as e:
         print(f"\nErro ao criar a tabela {nome_tabela}: {e}")
@@ -89,6 +90,36 @@ CREATE TABLE IF NOT EXISTS Dependentes (
 );
                ''')
 criar_tabela('Dependentes', query)
+
+# Tabela ProjetosDesenvolvidos
+query = (('''
+CREATE TABLE IF NOT EXISTS ProjetosDesenvolvidos (
+    ProjetosDesenvolvidoID INT PRIMARY KEY,
+    Nome TEXT NOT NULL,
+    Descricao TEXT,
+    DataInicio DATE,
+    DataConclusao DATE,
+    FuncionarioID INT,
+    Custo REAL,
+    Status TEXT,
+    FOREIGN KEY (FuncionarioID) REFERENCES Funcionarios(FuncionarioID)
+);
+                '''))
+criar_tabela('ProjetosDesenvolvidos', query)
+
+# Tabela RecursosProjetos
+query = (('''
+CREATE TABLE IF NOT EXISTS RecursosProjetos (
+    RecursosProjetoID INT PRIMARY KEY,
+    ProjetosDesenvolvidoID INT,
+    DescricaoRecurso TEXT,
+    TipoRecursos TEXT,
+    QuantidadeRecurso INTEGER,
+    DataUtilizacao DATE,
+    FOREIGN KEY (ProjetosDesenvolvidoID) REFERENCES ProjetosDesenvolvidos(ProjetosDesenvolvidoID)
+);
+            '''))
+criar_tabela('RecursosProjetos', query)
 
 
 #Populando as tabelas criadas com arquivos CSV =======================================================================================
