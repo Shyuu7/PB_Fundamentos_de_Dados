@@ -1,0 +1,26 @@
+RecursosProjetoID;ProjetoID;DescricaoRecurso;TipoRecurso;QuantidadeRecurso;DataUtilizacao
+1;1;Servidores;Material;10;2023-01-20
+2;1;Desenvolvedores;Humano;5;2023-02-10
+3;2;Licenças de software;Financeiro;15;2023-03-01
+4;2;Consultores;Humano;3;2023-04-15
+5;3;Espaço em nuvem;Material;20;2023-05-20
+6;3;Especialistas em migração;Humano;4;2023-06-10
+7;4;Equipamentos de rede;Material;8;2023-07-25
+8;5;Desenvolvedores de aplicativo;Humano;6;2023-08-05
+9;5;Serviços de design;Financeiro;12;2023-09-15
+10;6;Ferramentas de integração;Material;5;2023-10-10
+11;7;Analistas de processos;Humano;4;2023-11-01
+12;8;Protótipos;Material;10;2023-12-10
+13;9;Contratos de construção;Financeiro;7;2024-01-15
+14;10;Soluções de segurança;Material;3;2024-02-20
+15;10;Consultores de segurança;Humano;2;2024-03-25
+16;11;Plataformas de IA;Material;5;2023-11-10
+17;12;Ferramentas de automação;Material;8;2023-12-15
+18;13;Serviços de hospedagem;Financeiro;10;2024-01-25
+19;14;Servidores de alto desempenho;Material;6;2024-02-10
+20;15;Softwares de gestão de RH;Financeiro;12;2024-03-10
+21;16;Consultores de cadeia de suprimentos;Humano;7;2024-04-20
+22;17;Bibliotecas de chatbot;Material;4;2024-05-05
+23;18;Licenças de ERP;Financeiro;15;2024-06-10
+24;19;Ferramentas de análise de dados;Material;20;2024-07-15
+25;20;Plataformas de CRM;Material;10;2024-08-10

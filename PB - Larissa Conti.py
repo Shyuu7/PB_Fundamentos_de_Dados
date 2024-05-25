@@ -1,5 +1,6 @@
 import sqlite3
 import pandas as pd
+import json
 
 
 #Criando as tabelas ================================================================================================================
@@ -91,32 +92,32 @@ CREATE TABLE IF NOT EXISTS Dependentes (
                ''')
 criar_tabela('Dependentes', query)
 
-# Tabela ProjetosDesenvolvidos
+# Tabela Projetos
 query = (('''
-CREATE TABLE IF NOT EXISTS ProjetosDesenvolvidos (
-    ProjetosDesenvolvidoID INT PRIMARY KEY,
-    Nome TEXT NOT NULL,
-    Descricao TEXT,
+CREATE TABLE IF NOT EXISTS Projetos (
+    ProjetoID INT PRIMARY KEY,
+    NomeProjeto TEXT NOT NULL,
+    DescricaoProjeto TEXT,
     DataInicio DATE,
     DataConclusao DATE,
-    FuncionarioID INT,
+    FuncionarioResponsavelID INT,
     Custo REAL,
     Status TEXT,
-    FOREIGN KEY (FuncionarioID) REFERENCES Funcionarios(FuncionarioID)
+    FOREIGN KEY (FuncionarioResponsavelID) REFERENCES Funcionarios(FuncionarioID)
 );
                 '''))
-criar_tabela('ProjetosDesenvolvidos', query)
+criar_tabela('Projetos', query)
 
 # Tabela RecursosProjetos
 query = (('''
 CREATE TABLE IF NOT EXISTS RecursosProjetos (
     RecursosProjetoID INT PRIMARY KEY,
-    ProjetosDesenvolvidoID INT,
+    ProjetoID INT,
     DescricaoRecurso TEXT,
-    TipoRecursos TEXT,
+    TipoRecurso TEXT,
     QuantidadeRecurso INTEGER,
     DataUtilizacao DATE,
-    FOREIGN KEY (ProjetosDesenvolvidoID) REFERENCES ProjetosDesenvolvidos(ProjetosDesenvolvidoID)
+    FOREIGN KEY (ProjetoID) REFERENCES Projetos(ProjetoID)
 );
             '''))
 criar_tabela('RecursosProjetos', query)
@@ -169,6 +170,12 @@ inserir_dados('HistoricoSalarios', 'historico_salarios.csv')
 # Inserir dados na tabela Dependentes
 inserir_dados('Dependentes', 'dependentes.csv')
 
+#Inserir dados na tabela Projetos
+inserir_dados('Projetos', 'projetos.csv')
+
+#Inserir dados na tabela RecursosProjetos
+inserir_dados('RecursosProjetos', 'recursos_projetos.csv')
+
 #Consultas SQL ==========================================================================================================================
 
 # Função para conectar ao banco de dados e executar uma consulta SQL
@@ -177,8 +184,14 @@ def executar_consulta_sql(query):
     cursor = conn.cursor()
     cursor.execute(query)
     resultados = cursor.fetchall()
+    colunas = [description[0] for description in cursor.description]
     conn.close()
-    return resultados
+    return [dict(zip(colunas, linha)) for linha in resultados]
+
+# Função para salvar os resultados em um arquivo JSON
+def salvar_em_json(nome_arquivo, dados):
+    with open(nome_arquivo, 'w') as f:
+        json.dump(dados, f, indent=4)
 
 # Consulta 1: Listar individualmente as tabelas em ordem crescente
 def listar_tabela(tabela):
@@ -218,7 +231,7 @@ def listar_funcionarios_com_aumento():
     resultados = executar_consulta_sql(query)
     print("Funcionários com aumento salarial nos últimos 3 meses:")
     for linha in resultados:
-        print(linha[0])
+        print(linha)
     print("\n=====================================================================")
 
 # Consulta 4: Listar a média de idade dos filhos dos funcionários por departamento
@@ -248,8 +261,90 @@ def listar_estagiarios_com_filho():
     resultados = executar_consulta_sql(query)
     print("Estagiários que possuem filho:")
     for linha in resultados:
-        print(linha[0])
+        print(linha)
     print("\n=====================================================================")
+    
+#Consulta 1 TP 4: Listar a média dos salários dos funcionários responsáveis por projetos concluídos, agrupados por departamento
+def listar_media_salarios_funcionarios_projetos_concluidos():
+    query = """
+        SELECT d.NomeDepartamento AS Departamento, AVG(f.Salario) AS MediaSalarios
+        FROM Funcionarios f
+        JOIN Projetos p ON f.FuncionarioID = p.FuncionarioResponsavelID
+        JOIN Departamentos d ON f.DepartamentoID = d.DepartamentoID
+        WHERE p.Status = 'Concluído'
+        GROUP BY d.NomeDepartamento;
+        """
+    resultados = executar_consulta_sql(query)
+    print("Média dos salários dos funcionários responsáveis por projetos concluídos, agrupados por departamento:")
+    for linha in resultados:
+        print(linha)
+    print("\n=====================================================================")
+    return resultados
+    
+#Consulta 2 TP4: Identificar os três recursos materiais mais usados nos projetos, listando a descrição do recurso e a quantidade total usada
+def listar_recursos_mais_utilizados():
+    query = """
+        SELECT DescricaoRecurso, SUM(QuantidadeRecurso) AS TotalUtilizado
+        FROM RecursosProjetos
+        GROUP BY DescricaoRecurso
+        ORDER BY TotalUtilizado DESC
+        LIMIT 3;
+        """
+    resultados = executar_consulta_sql(query)
+    print("Recursos materiais mais utilizados nos projetos:")
+    for linha in resultados:
+        print(linha)
+    print("\n=====================================================================")
+    return resultados
+    
+#Consulta 3 TP4: Calcular o custo total dos projetos por departamento, considerando apenas os projetos 'Concluídos'
+def listar_custo_total_projetos_concluidos_por_departamento():
+    query = """
+        SELECT d.NomeDepartamento AS Departamento, SUM(p.Custo) AS CustoTotal
+        FROM Projetos p
+        JOIN Funcionarios f ON p.FuncionarioResponsavelID = f.FuncionarioID
+        JOIN Departamentos d ON f.DepartamentoID = d.DepartamentoID
+        WHERE p.Status = 'Concluído'
+        GROUP BY d.NomeDepartamento;
+        """
+    resultados = executar_consulta_sql(query)
+    print("Custo total dos projetos concluídos por departamento:")
+    for linha in resultados:
+        print(linha)
+    print("\n=====================================================================")
+    return resultados
+    
+#Consulta 4 TP4: Listar todos os projetos com seus respectivos nomes, custo, data de início, data de conclusão e o nome do funcionário responsável, que estejam 'Em Execução'
+def listar_projetos_em_execucao():
+    query = """
+        SELECT p.NomeProjeto, p.Custo, p.DataInicio, p.DataConclusao, f.Nome AS FuncionarioResponsavel
+        FROM Projetos p
+        JOIN Funcionarios f ON p.FuncionarioResponsavelID = f.FuncionarioID
+        WHERE p.Status = 'Em Execução';
+        """
+    resultados = executar_consulta_sql(query)
+    print("Projetos em execução: Nome do Projeto, Custo, Data de Início, Data de Conclusão e Funcionário Responsável:" )
+    for linha in resultados:
+        print(linha)
+    print("\n=====================================================================")
+
+#Consulta 5 TP4: Identificar o projeto com o maior número de dependentes envolvidos, considerando que os dependentes são associados aos funcionários que estão gerenciando os projetos
+def listar_projeto_maior_numero_dependentes():
+    query = """
+        SELECT p.NomeProjeto, COUNT(dep.DependenteID) AS NumeroDependentes
+        FROM Projetos p
+        JOIN Funcionarios f ON p.FuncionarioResponsavelID = f.FuncionarioID
+        JOIN Dependentes dep ON f.FuncionarioID = dep.FuncionarioID
+        GROUP BY p.NomeProjeto
+        ORDER BY NumeroDependentes DESC
+        LIMIT 1;
+        """
+    resultados = executar_consulta_sql(query)
+    print("Projeto com o maior número de dependentes envolvidos:")
+    for linha in resultados:
+        print(linha)
+    print("\n=====================================================================")
+
 
 # Estabelecer conexão com o banco de dados
 conn = sqlite3.connect('empresa.db')
@@ -265,9 +360,24 @@ listar_funcionarios_com_info() #Query 2
 listar_funcionarios_com_aumento() #Query 3
 listar_media_idade_filhos_por_departamento() #Query 4
 listar_estagiarios_com_filho() #Query 5
+listar_media_salarios_funcionarios_projetos_concluidos() #Query 1 TP 4
+listar_recursos_mais_utilizados() #Query 2 TP 4
+listar_custo_total_projetos_concluidos_por_departamento() #Query 3 TP 4
+listar_projetos_em_execucao() #Query 4 TP 4
+listar_projeto_maior_numero_dependentes() #Query 5 TP 4
 
 # Fechar conexão com o banco de dados
 conn.close()
+
+# Executar as consultas e salvar os resultados em arquivos JSON (Queries 1, 2, 3 TP4)
+media_salarios = listar_media_salarios_funcionarios_projetos_concluidos()
+salvar_em_json('media_salarios_projetos_concluidos.json', media_salarios)
+
+recursos_mais_utilizados = listar_recursos_mais_utilizados()
+salvar_em_json('recursos_mais_utilizados.json', recursos_mais_utilizados)
+
+custo_total_projetos = listar_custo_total_projetos_concluidos_por_departamento()
+salvar_em_json('custo_total_projetos_concluidos.json', custo_total_projetos)
 
 #Queries com manipulação de arquivo CSV =================================================================================================
 
@@ -371,4 +481,6 @@ listar_analistas_com_duas_filhas() #Query 7
 listar_analista_salario_mais_alto() #Query 8
 listar_departamento_mais_dependentes() #Query 9
 listar_media_salarial_por_departamento() #Query 10
+
+
 

@@ -1,0 +1,21 @@
+ProjetoID;NomeProjeto;DescricaoProjeto;DataInicio;DataConclusao;FuncionarioResponsavelID;Custo;Status
+1;Projeto Alpha;Desenvolvimento de sistema interno;2023-01-15;2023-06-30;1;50000.00;Concluído
+2;Projeto Beta;Implementação de CRM;2023-02-01;2023-07-15;1;75000.00;Em Execução
+3;Projeto Gamma;Migração para a nuvem;2023-03-10;2023-12-01;8;120000.00;Em Planejamento
+4;Projeto Delta;Atualização de infraestrutura;2023-04-20;2023-09-30;5;90000.00;Cancelado
+5;Projeto Epsilon;Desenvolvimento de aplicativo móvel;2023-05-05;2023-11-20;12;65000.00;Em Execução
+6;Projeto Zeta;Integração de sistemas;2023-06-01;2023-10-15;10;85000.00;Em Execução
+7;Projeto Eta;Automatização de processos;2023-07-01;2023-12-31;7;95000.00;Em Planejamento
+8;Projeto Theta;Desenvolvimento de novo produto;2023-08-01;2023-11-30;9;100000.00;Concluído
+9;Projeto Iota;Expansão de infraestrutura;2023-09-01;2024-03-01;8;110000.00;Em Execução
+10;Projeto Kappa;Melhoria de segurança;2023-10-01;2024-04-01;2;120000.00;Em Planejamento
+11;Projeto Lambda;Desenvolvimento de IA;2023-11-01;2024-05-01;2;130000.00;Concluído
+12;Projeto Mu;Automação de Marketing;2023-12-01;2024-06-01;4;70000.00;Em Execução
+13;Projeto Nu;Plataforma de E-commerce;2024-01-01;2024-07-01;12;140000.00;Em Planejamento
+14;Projeto Xi;Reestruturação de TI;2024-02-01;2024-08-01;1;150000.00;Em Execução
+15;Projeto Omicron;Sistema de Gestão de RH;2024-03-01;2024-09-01;2;110000.00;Em Execução
+16;Projeto Pi;Otimização de Cadeia de Suprimentos;2024-04-01;2024-10-01;4;160000.00;Em Execução
+17;Projeto Rho;Desenvolvimento de Chatbot;2024-05-01;2024-11-01;6;50000.00;Concluído
+18;Projeto Sigma;Implementação de ERP;2024-06-01;2024-12-01;3;200000.00;Em Execução
+19;Projeto Tau;Análise de Dados;2024-07-01;2025-01-01;7;180000.00;Em Execução
+20;Projeto Upsilon;Gestão de Relacionamento com Clientes;2024-08-01;2025-02-01;1;130000.00;Concluído

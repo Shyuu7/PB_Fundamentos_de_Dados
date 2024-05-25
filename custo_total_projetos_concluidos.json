@@ -1,0 +1,14 @@
+[
+    {
+        "Departamento": "Suporte T\u00e9cnico",
+        "CustoTotal": 100000.0
+    },
+    {
+        "Departamento": "TI",
+        "CustoTotal": 310000.0
+    },
+    {
+        "Departamento": "Vendas",
+        "CustoTotal": 50000.0
+    }
+]
