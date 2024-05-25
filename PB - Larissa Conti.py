@@ -190,8 +190,8 @@ def executar_consulta_sql(query):
 
 # Função para salvar os resultados em um arquivo JSON
 def salvar_em_json(nome_arquivo, dados):
-    with open(nome_arquivo, 'w') as f:
-        json.dump(dados, f, indent=4)
+    with open(nome_arquivo, 'w', encoding="utf-8") as f:
+        json.dump(dados, f, indent=4, ensure_ascii=False)
 
 # Consulta 1: Listar individualmente as tabelas em ordem crescente
 def listar_tabela(tabela):
