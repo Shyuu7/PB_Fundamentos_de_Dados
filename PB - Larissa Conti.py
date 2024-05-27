@@ -286,6 +286,7 @@ def listar_recursos_mais_utilizados():
     query = """
         SELECT DescricaoRecurso, SUM(QuantidadeRecurso) AS TotalUtilizado
         FROM RecursosProjetos
+        WHERE TipoRecurso = 'Material'
         GROUP BY DescricaoRecurso
         ORDER BY TotalUtilizado DESC
         LIMIT 3;
